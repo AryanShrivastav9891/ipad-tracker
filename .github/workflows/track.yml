@@ -1,0 +1,62 @@
+name: Track iPad price
+
+on:
+  schedule:
+    # Har 4 ghante. Sale week me isko '0 * * * *' (har ghanta) kar dena.
+    - cron: "0 */4 * * *"
+  workflow_dispatch:
+    inputs:
+      test:
+        description: "Sirf Telegram test message bhejo"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ipad-tracker
+  cancel-in-progress: false
+
+jobs:
+  track:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Send test message
+        if: ${{ inputs.test }}
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python tracker.py --test
+
+      - name: Check prices
+        if: ${{ !inputs.test }}
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TARGET_PRICE: "40000"
+          DROP_PCT: "3"
+        run: python tracker.py
+
+      - name: Save price history
+        if: ${{ !inputs.test }}
+        run: |
+          git config user.name "ipad-tracker"
+          git config user.email "actions@github.com"
+          git add price_history.json
+          # state.json .gitignore me hai (local runtime file), par CI pe use
+          # persist karna zaroori hai - warna alert cooldown har run pe reset
+          # ho kar duplicate Telegram alerts aayenge.
+          git add -f state.json
+          git diff --staged --quiet || git commit -m "prices: $(date -u +'%Y-%m-%d %H:%M') UTC"
+          git push

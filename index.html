@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iPad 11 rate board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B2426; --board:#0F3133; --raised:#16464A;
+    --paper:#ECE4D2; --muted:#7FA6A4;
+    --marigold:#F5A317; --magenta:#E8447E; --mint:#4FDDA6;
+    --line:rgba(236,228,210,.13);
+    --display:"Bricolage Grotesque",system-ui,sans-serif;
+    --body:"Manrope",system-ui,sans-serif;
+    --mono:"DM Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--ink); color:var(--paper); font-family:var(--body);
+    line-height:1.5; -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(120% 60% at 50% 0%, #14403F 0%, var(--ink) 62%);
+    background-attachment:fixed;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:28px 20px 72px}
+  .eyebrow{
+    font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--muted); margin:0 0 6px;
+  }
+  h1{font-family:var(--display); font-weight:800; font-size:clamp(24px,4.6vw,36px); line-height:1.08; margin:0 0 4px; letter-spacing:-.02em}
+  .sub{color:var(--muted); font-size:14px; margin:0}
+
+  .panel{background:var(--board); border:1px solid var(--line); border-radius:18px; padding:22px}
+  .stack{display:grid; gap:16px; margin-top:22px}
+
+  /* ---- hero ---- */
+  .hero{display:grid; gap:20px; grid-template-columns:1fr auto; align-items:end}
+  .verdict{
+    display:inline-flex; align-items:center; gap:8px; font-family:var(--mono);
+    font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+    padding:7px 13px; border-radius:999px; border:1px solid currentColor; margin-bottom:14px;
+  }
+  .verdict.buy{color:var(--mint)} .verdict.wait{color:var(--marigold)} .verdict.watch{color:var(--muted)}
+  .dot{width:7px; height:7px; border-radius:50%; background:currentColor}
+  .big{font-family:var(--mono); font-weight:500; font-size:clamp(46px,11vw,84px); line-height:.9; letter-spacing:-.04em; color:var(--marigold); margin:0}
+  .big-note{margin:12px 0 0; font-size:14px; color:var(--muted); max-width:34ch}
+  .big-note b{color:var(--paper); font-weight:700}
+  .savings{text-align:right; font-family:var(--mono); font-size:13px; color:var(--mint); white-space:nowrap}
+  .savings span{display:block; color:var(--muted); font-size:11px; letter-spacing:.12em; text-transform:uppercase; margin-bottom:4px}
+
+  /* ---- signature: rate ladder ---- */
+  .two{display:grid; gap:16px; grid-template-columns:230px 1fr; align-items:stretch}
+  .ladder{position:relative; height:340px; margin:26px 0 8px}
+  .rail{position:absolute; left:14px; top:0; bottom:0; width:2px; background:linear-gradient(var(--magenta),var(--marigold),var(--mint))}
+  .tick{position:absolute; left:0; right:0; transform:translateY(-50%)}
+  .tick .bar{position:absolute; left:8px; width:14px; height:1px; background:var(--line)}
+  .tick .lbl{margin-left:30px; font-family:var(--mono); font-size:12px; white-space:nowrap}
+  .tick .who{font-family:var(--body); font-size:11px; color:var(--muted); margin-left:8px}
+  .mark{position:absolute; left:9px; width:12px; height:12px; border-radius:50%; background:var(--paper); border:2px solid var(--board); transform:translateY(-50%)}
+  .guide{position:absolute; left:0; right:0; border-top:1px dashed; transform:translateY(-50%); opacity:.75}
+  .guide .g-lbl{position:absolute; right:0; top:-9px; font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; background:var(--board); padding-left:8px}
+
+  /* ---- table ---- */
+  table{width:100%; border-collapse:collapse; font-size:14px}
+  th{font-family:var(--mono); font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); text-align:left; font-weight:400; padding:0 0 10px}
+  th.r,td.r{text-align:right}
+  td{padding:11px 0; border-top:1px solid var(--line); vertical-align:top}
+  td a{color:var(--paper); text-decoration:none; border-bottom:1px solid var(--line); font-weight:700}
+  td a:hover{border-color:var(--marigold)}
+  .offer{display:block; color:var(--muted); font-size:11.5px; margin-top:3px; max-width:30ch}
+  .eff{font-family:var(--mono); font-size:16px}
+  .lst{font-family:var(--mono); color:var(--muted); font-size:13px}
+  tr.best td{background:linear-gradient(90deg,rgba(245,163,23,.09),transparent)}
+  .flag{font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; color:var(--marigold); border:1px solid var(--marigold); border-radius:4px; padding:1px 5px; margin-left:7px; vertical-align:2px}
+
+  /* ---- section heads ---- */
+  h2{font-family:var(--display); font-weight:600; font-size:17px; margin:0 0 4px; letter-spacing:-.01em}
+  .hint{color:var(--muted); font-size:12.5px; margin:0 0 18px}
+
+  /* ---- chart ---- */
+  .chart{width:100%; height:190px; display:block}
+  .empty{border:1px dashed var(--line); border-radius:12px; padding:26px; text-align:center; color:var(--muted); font-size:13px}
+
+  /* ---- countdowns ---- */
+  .sales{display:grid; gap:12px; grid-template-columns:1fr 1fr}
+  .sale{background:var(--raised); border-radius:14px; padding:16px}
+  .days{font-family:var(--mono); font-size:30px; color:var(--marigold); line-height:1}
+  .sale h3{font-family:var(--body); font-size:14px; margin:8px 0 2px; font-weight:700}
+  .sale p{margin:0; font-size:12px; color:var(--muted)}
+
+  /* ---- forms ---- */
+  .fields{display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+  label{display:block; font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:6px}
+  input,select{
+    width:100%; background:var(--ink); color:var(--paper); border:1px solid var(--line);
+    border-radius:10px; padding:10px 12px; font-family:var(--mono); font-size:14px;
+  }
+  input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--marigold); outline-offset:2px}
+  button{
+    background:var(--marigold); color:#26160B; border:0; border-radius:10px; padding:11px 18px;
+    font-family:var(--body); font-weight:700; font-size:14px; cursor:pointer;
+  }
+  button.ghost{background:transparent; color:var(--paper); border:1px solid var(--line)}
+  button:hover{filter:brightness(1.07)}
+  .result{margin-top:16px; padding-top:16px; border-top:1px solid var(--line); font-family:var(--mono); font-size:15px}
+  .result b{color:var(--mint); font-size:22px}
+  .row{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
+
+  /* ---- links ---- */
+  .links{display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+  .link{
+    display:block; background:var(--raised); border-radius:12px; padding:14px;
+    text-decoration:none; color:var(--paper); border:1px solid transparent;
+  }
+  .link:hover{border-color:var(--marigold)}
+  .link strong{display:block; font-size:14px; margin-bottom:3px}
+  .link span{font-size:12px; color:var(--muted)}
+
+  footer{margin-top:26px; color:var(--muted); font-size:11.5px; font-family:var(--mono)}
+
+  @media(max-width:760px){
+    .two,.hero,.sales{grid-template-columns:1fr}
+    .hero{align-items:start}
+    .savings{text-align:left}
+    .offer{display:none}
+  }
+  @media(prefers-reduced-motion:no-preference){
+    .fade{animation:rise .5s ease-out both}
+    @keyframes rise{from{opacity:0; transform:translateY(8px)}to{opacity:1; transform:none}}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow" id="stamp">loading</p>
+  <h1>iPad 11 · Wi-Fi · 128GB</h1>
+  <p class="sub">Rate board for Delhi. Apple MRP <span id="mrp">₹49,900</span> since the June 2026 hike.</p>
+
+  <div class="stack">
+
+    <section class="panel fade">
+      <div class="hero">
+        <div>
+          <div class="verdict watch" id="verdict"><span class="dot"></span><span id="verdict-text">checking</span></div>
+          <p class="big" id="best-price">—</p>
+          <p class="big-note" id="best-note">Reading price_history.json…</p>
+        </div>
+        <div class="savings"><span>MRP se neeche</span><div id="saved">—</div></div>
+      </div>
+    </section>
+
+    <div class="two">
+      <section class="panel fade">
+        <h2>Rate ladder</h2>
+        <p class="hint">MRP se target tak, har store kahan khada hai.</p>
+        <div class="ladder" id="ladder"><div class="rail"></div></div>
+      </section>
+
+      <section class="panel fade">
+        <h2>Har store ka aaj ka rate</h2>
+        <p class="hint">Effective = listed price minus best bank offer.</p>
+        <table>
+          <thead><tr><th>Store</th><th class="r">Listed</th><th class="r">Effective</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </section>
+    </div>
+
+    <section class="panel fade">
+      <h2>Girawat ka record</h2>
+      <p class="hint">Har din ka sabse sasta effective price.</p>
+      <div id="chart-holder"></div>
+    </section>
+
+    <section class="panel fade">
+      <h2>Sale kab hai</h2>
+      <p class="hint">Post-hike sabse bade discount inhi window me milne ki ummeed hai.</p>
+      <div class="sales" id="sales"></div>
+    </section>
+
+    <section class="panel fade">
+      <h2>Bank offer calculator</h2>
+      <p class="hint">Kahin bhi price dikhe to yahan daal ke asli kharcha nikaal lo.</p>
+      <div class="fields">
+        <div>
+          <label for="listed">Listed price</label>
+          <input id="listed" type="number" value="47490" min="0" step="100">
+        </div>
+        <div>
+          <label for="card">Card offer</label>
+          <select id="card">
+            <option value="6000">Axis / ICICI / SBI — ₹6,000 (6-mo EMI)</option>
+            <option value="2037">Amazon Pay ICICI — ₹2,037 cashback</option>
+            <option value="pct10">Festive 10% instant (cap ₹5,000)</option>
+            <option value="3000">HDFC — ₹3,000 instant</option>
+            <option value="0">Koi card offer nahi</option>
+          </select>
+        </div>
+        <div>
+          <label for="exchange">Exchange value</label>
+          <input id="exchange" type="number" value="0" min="0" step="500">
+        </div>
+      </div>
+      <div class="result" id="calc">—</div>
+    </section>
+
+    <section class="panel fade">
+      <h2>Maine ye price dekha</h2>
+      <p class="hint">Kahin manually koi deal mile to yahan add karo — ladder aur chart turant update honge. Save karne ke liye JSON copy karke <code>price_history.json</code> me paste kar dena.</p>
+      <div class="fields">
+        <div>
+          <label for="m-store">Store</label>
+          <input id="m-store" type="text" placeholder="Croma store, Nehru Place">
+        </div>
+        <div>
+          <label for="m-listed">Listed price</label>
+          <input id="m-listed" type="number" placeholder="46990" min="0" step="100">
+        </div>
+        <div>
+          <label for="m-offer">Bank offer (₹)</label>
+          <input id="m-offer" type="number" value="6000" min="0" step="500">
+        </div>
+      </div>
+      <div class="row">
+        <button id="add">Add price</button>
+        <button class="ghost" id="copy">Copy as JSON</button>
+      </div>
+    </section>
+
+    <section class="panel fade">
+      <h2>Backup trackers</h2>
+      <p class="hint">Amazon aur Flipkart bots block karte hain — inhe wahan laga do taaki koi drop miss na ho.</p>
+      <div class="links">
+        <a class="link" target="_blank" rel="noopener" href="https://pricehistory.app/">
+          <strong>Pricehistory.app</strong><span>Amazon URL paste karo, ₹40,000 ka email alert lagao</span>
+        </a>
+        <a class="link" target="_blank" rel="noopener" href="https://www.smartprix.com/tablets/apple-ipad-11-2025-ppd14pzcv6d3">
+          <strong>Smartprix</strong><span>Ek page pe saare stores ka price + alert</span>
+        </a>
+        <a class="link" target="_blank" rel="noopener" href="https://buyhatke.com/">
+          <strong>BuyHatke</strong><span>Flipkart ke liye sabse bharosemand</span>
+        </a>
+        <a class="link" target="_blank" rel="noopener" href="https://keepa.com/">
+          <strong>Keepa</strong><span>Amazon price history ka gold standard</span>
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+  <footer id="src">data source: —</footer>
+</div>
+
+<script>
+const SEED = {
+  product:"iPad 11 (A16, 2025) · Wi-Fi · 128GB", mrp:49900, target:40000,
+  updated_at:"2026-08-27T09:00+05:30",
+  entries:[
+    {ts:"2026-08-27T09:00+05:30",store:"croma",name:"Croma",listed:47490,effective:41490,offer:"₹6,000 cashback (Axis/ICICI/SBI, 6-mo EMI)",url:"https://www.croma.com/apple-ipad-a16-bionic-chip-wi-fi-11-inch-128gb-silver-2025-model-/p/324285"},
+    {ts:"2026-08-27T09:00+05:30",store:"reliance",name:"Reliance Digital",listed:47490,effective:41490,offer:"₹6,000 cashback + 6-mo No-Cost EMI",url:"https://www.reliancedigital.in/product/apple-ipad-a16-11th-gen-2025-2759-cm-1086-inch-wi-fi-tablet-128-gb-silver-m7vtn8-8967038"},
+    {ts:"2026-08-27T09:00+05:30",store:"vijaysales",name:"Vijay Sales",listed:46490,effective:40490,offer:"Card offer + No-Cost EMI (stock out tha)",url:"https://www.vijaysales.com/p/P238547/238543/apple-ipad-11th-gen-2025-wifi-128gb-silver-md3y4hn-a"},
+    {ts:"2026-08-27T09:00+05:30",store:"flipkart",name:"Flipkart",listed:49900,effective:43900,offer:"₹6,000 aggregate bank offer",url:"https://www.flipkart.com/apple-2025-ipad-a16-128-gb-rom-11-0-inch-wi-fi-only-silver/p/itm12757f0d5f932"},
+    {ts:"2026-08-27T09:00+05:30",store:"apple",name:"Apple India",listed:49900,effective:43900,offer:"₹6,000 cashback (Axis/ICICI/SBI, 6-mo EMI)",url:"https://www.apple.com/in/shop/buy-ipad/ipad/128gb-silver-wifi"},
+    {ts:"2026-08-27T09:00+05:30",store:"amazon",name:"Amazon India",listed:49900,effective:47863,offer:"Amazon Pay ICICI cashback",url:"https://www.amazon.in/Apple-iPad-11%E2%80%B3-Display-All-Day/dp/B0DZ79Q1DB"}
+  ]
+};
+
+const URLS = {
+  croma:SEED.entries[0].url, reliance:SEED.entries[1].url, vijaysales:SEED.entries[2].url,
+  flipkart:SEED.entries[3].url, apple:SEED.entries[4].url, amazon:SEED.entries[5].url
+};
+
+const SALES = [
+  {name:"Flipkart Big Billion Days", date:"2026-09-23", note:"Expected · Plus early access 22 Sept"},
+  {name:"Amazon Great Indian Festival", date:"2026-10-02", note:"Expected 2–7 Oct · date ~20 Sept ko confirm hogi"}
+];
+
+let DATA = null, manual = [];
+
+const inr = n => n==null ? "—" : "₹" + Math.round(n).toLocaleString("en-IN");
+const $ = id => document.getElementById(id);
+
+async function boot(){
+  let src = "built-in snapshot (27 Aug 2026)";
+  try{
+    const res = await fetch("./price_history.json", {cache:"no-store"});
+    if(res.ok){ DATA = await res.json(); src = "price_history.json · bot ka live data"; }
+  }catch(e){ /* file nahi mili, seed chalega */ }
+  if(!DATA || !DATA.entries || !DATA.entries.length) DATA = SEED;
+  $("src").textContent = "data source: " + src;
+  $("mrp").textContent = inr(DATA.mrp || 49900);
+  render();
+}
+
+function latest(){
+  const map = {};
+  [...(DATA.entries||[]), ...manual].forEach(e=>{
+    if(!map[e.store] || e.ts > map[e.store].ts) map[e.store] = e;
+  });
+  return Object.values(map).sort((a,b)=>a.effective-b.effective);
+}
+
+function render(){
+  const rows = latest();
+  const mrp = DATA.mrp || 49900;
+  const target = DATA.target || 40000;
+  const best = rows[0];
+  const all = [...(DATA.entries||[]), ...manual].map(e=>e.effective).filter(Boolean);
+  const atl = all.length ? Math.min(...all) : null;
+
+  // stamp
+  const when = new Date((DATA.updated_at||"").replace(" ","T"));
+  $("stamp").textContent = isNaN(when) ? "rate board" :
+    "last checked · " + when.toLocaleString("en-IN",{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
+
+  // hero
+  $("best-price").textContent = inr(best.effective);
+  $("best-note").innerHTML = `<b>${best.name}</b> pe, ${best.offer}.<br>Listed ${inr(best.listed)}.`;
+  $("saved").textContent = "− " + inr(mrp - best.effective);
+
+  const days = Math.ceil((new Date(SALES[0].date) - new Date())/864e5);
+  const v = $("verdict"), vt = $("verdict-text");
+  v.className = "verdict " + (best.effective<=target ? "buy" : (days>0 && days<=45 ? "wait" : "watch"));
+  vt.textContent = best.effective<=target ? "Target hit — abhi kharido"
+                 : (days>0 && days<=45 ? `Ruko — sale ${days} din door` : "Watch kar rahe hain");
+
+  // table
+  $("rows").innerHTML = rows.map(e=>`
+    <tr class="${e===best?'best':''}">
+      <td>${URLS[e.store] ? `<a href="${URLS[e.store]}" target="_blank" rel="noopener">${e.name}</a>` : e.name}
+        ${e===best?'<span class="flag">BEST</span>':''}
+        <span class="offer">${e.offer||""}</span></td>
+      <td class="r lst">${inr(e.listed)}</td>
+      <td class="r eff">${inr(e.effective)}</td>
+    </tr>`).join("");
+
+  // ladder
+  const top = mrp, bottom = Math.min(target, atl ?? target) - 2000, span = top - bottom;
+  const y = p => ((top - p)/span)*100;
+  let html = '<div class="rail"></div>';
+  html += guide(y(mrp), "MRP " + inr(mrp), "var(--magenta)");
+  html += guide(y(target), "target " + inr(target), "var(--mint)");
+  if(atl && Math.abs(atl-target)>900) html += guide(y(atl), "low " + inr(atl), "var(--marigold)");
+  rows.forEach(e=>{
+    const pos = y(e.effective);
+    html += `<div class="mark" style="top:${pos}%; background:${e===best?'var(--marigold)':'var(--paper)'}"></div>
+      <div class="tick" style="top:${pos}%"><div class="bar"></div>
+      <div class="lbl">${inr(e.effective)}<span class="who">${e.name}</span></div></div>`;
+  });
+  $("ladder").innerHTML = html;
+
+  drawChart();
+  drawSales();
+  calc();
+}
+
+function guide(pos, label, colour){
+  return `<div class="guide" style="top:${pos}%; border-color:${colour}; color:${colour}">
+    <span class="g-lbl">${label}</span></div>`;
+}
+
+function drawChart(){
+  const byDay = {};
+  [...(DATA.entries||[]), ...manual].forEach(e=>{
+    const d = e.ts.slice(0,10);
+    if(!byDay[d] || e.effective < byDay[d]) byDay[d] = e.effective;
+  });
+  const days = Object.keys(byDay).sort();
+  if(days.length < 2){
+    $("chart-holder").innerHTML = `<div class="empty">Abhi ek hi din ka data hai. Bot ke 2–3 din chalne ke baad yahan line dikhegi.</div>`;
+    return;
+  }
+  const vals = days.map(d=>byDay[d]);
+  const lo = Math.min(...vals)-800, hi = Math.max(...vals)+800;
+  const W=800, H=190, P=30;
+  const x = i => P + (i/(days.length-1))*(W-P*2);
+  const y = v => H-P - ((v-lo)/(hi-lo))*(H-P*2);
+  const line = days.map((d,i)=>`${x(i)},${y(byDay[d])}`).join(" ");
+  const tgt = DATA.target || 40000;
+  const tgtLine = (tgt>lo && tgt<hi) ? `<line x1="${P}" y1="${y(tgt)}" x2="${W-P}" y2="${y(tgt)}" stroke="var(--mint)" stroke-dasharray="4 4" opacity=".6"/>` : "";
+  $("chart-holder").innerHTML = `<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Price trend">
+    ${tgtLine}
+    <polyline points="${line}" fill="none" stroke="var(--marigold)" stroke-width="2.5" stroke-linejoin="round"/>
+    ${days.map((d,i)=>`<circle cx="${x(i)}" cy="${y(byDay[d])}" r="3.5" fill="var(--marigold)"><title>${d}: ${inr(byDay[d])}</title></circle>`).join("")}
+    <text x="${P}" y="${H-6}" fill="var(--muted)" font-size="11" font-family="monospace">${days[0]}</text>
+    <text x="${W-P}" y="${H-6}" fill="var(--muted)" font-size="11" font-family="monospace" text-anchor="end">${days.at(-1)}</text>
+  </svg>`;
+}
+
+function drawSales(){
+  $("sales").innerHTML = SALES.map(s=>{
+    const d = Math.ceil((new Date(s.date) - new Date())/864e5);
+    return `<div class="sale"><div class="days">${d>0?d:"—"}<span style="font-size:13px; color:var(--muted)"> ${d>0?"din":"live"}</span></div>
+      <h3>${s.name}</h3><p>${s.note}</p></div>`;
+  }).join("");
+}
+
+function calc(){
+  const listed = +$("listed").value || 0;
+  const choice = $("card").value;
+  const off = choice==="pct10" ? Math.min(listed*0.1, 5000) : +choice;
+  const ex = +$("exchange").value || 0;
+  const eff = Math.max(listed-off, 0);
+  $("calc").innerHTML = `Bank offer −${inr(off)} → effective <b>${inr(eff)}</b>` +
+    (ex ? `<br><span style="color:var(--muted)">Exchange −${inr(ex)} → jeb se ${inr(Math.max(eff-ex,0))}</span>` : "");
+}
+
+$("listed").addEventListener("input", calc);
+$("card").addEventListener("change", calc);
+$("exchange").addEventListener("input", calc);
+
+$("add").addEventListener("click", ()=>{
+  const name = $("m-store").value.trim();
+  const listed = +$("m-listed").value;
+  const off = +$("m-offer").value || 0;
+  if(!name || !listed){ $("m-store").focus(); return; }
+  manual.push({
+    ts:new Date().toISOString().slice(0,16), store:"manual-"+manual.length,
+    name, listed, effective:Math.max(listed-off,0), offer:`Manually added · ₹${off.toLocaleString("en-IN")} offer`
+  });
+  $("m-store").value=""; $("m-listed").value="";
+  render();
+});
+
+$("copy").addEventListener("click", async ()=>{
+  const text = JSON.stringify(manual, null, 2);
+  try{ await navigator.clipboard.writeText(text); $("copy").textContent="Copied"; }
+  catch(e){ window.prompt("Copy this into price_history.json:", text); }
+  setTimeout(()=>$("copy").textContent="Copy as JSON", 1600);
+});
+
+boot();
+</script>
+</body>
+</html>

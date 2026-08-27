@@ -1,0 +1,17 @@
+# Secrets - ye kabhi git me nahi jaani chahiye
+.env
+.env.local
+*.token
+secrets*
+
+# Runtime
+state.json
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# OS
+.DS_Store
