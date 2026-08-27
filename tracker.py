@@ -114,7 +114,9 @@ STORES = [
     {
         "id": "vijaysales",
         "name": "Vijay Sales",
-        "url": "https://www.vijaysales.com/p/P238547/238543/apple-ipad-11th-gen-2025-wifi-128gb-silver-md3y4hn-a",
+        # Purana P238547/238543 dead tha - 302 se category page pe bhejta tha
+        # aur wahan se kisi aur iPad ka ₹86,990 uth raha tha.
+        "url": "https://www.vijaysales.com/p/P258948/258948/apple-ipad-11th-gen-2025-wi-fi-128gb-md3y4hn-a-silver",
         "bank_offer": 6000,
         "offer_label": "Card offer + No-Cost EMI",
         "patterns": [r'"price"\s*:\s*"?([0-9][0-9,.]*)', r'₹\s*([0-9]{2},[0-9]{3})'],
@@ -131,8 +133,14 @@ STORES = [
         "id": "flipkart",
         "name": "Flipkart",
         "url": "https://www.flipkart.com/apple-2025-ipad-a16-128-gb-rom-11-0-inch-wi-fi-only-silver/p/itm12757f0d5f932",
-        "bank_offer": 6000,
-        "offer_label": "₹6,000 aggregate bank offer",
+        # Flipkart JSON-LD me sirf MRP (₹49,900) bhejta hai; asli selling price
+        # page pe "Buy at ₹43,900" me hota hai - isliye wo primary pattern hai.
+        "primary_patterns": [r"Buy at ₹\s?([0-9][0-9,]*)"],
+        # Pehle yahan 6000 tha, par 49,900 - 43,900 = 6,000 yaani wo Flipkart ka
+        # apna listing discount hai, alag bank offer nahi. Dono ginne se effective
+        # price jhootha neeche chala jaata tha aur galat TARGET HIT alert banta.
+        "bank_offer": 0,
+        "offer_label": "listed price (bank offer alag se check karo)",
         "patterns": [
             r'"finalPrice"\s*:\s*\{[^}]*"value"\s*:\s*([0-9]+)',
             r'"price"\s*:\s*"?([0-9][0-9,.]*)',
@@ -192,14 +200,26 @@ def _walk_for_price(node) -> list[int]:
     return found
 
 
-def extract_price(html: str, patterns: list[str]) -> int | None:
+def extract_price(
+    html: str, patterns: list[str], primary: list[str] | None = None
+) -> int | None:
     # Har source ka apna tier. Pehla tier jisme sane number mile, wahi jeetta hai.
     # Pehle teeno ko mila kar min() lete the - loose regex page pe kahin se
     # accessory/EMI/dusre model ka chhota number utha leta tha aur JSON-LD ka
     # sahi price haar jaata tha (Apple: 49900 ke bajaye 24900 aa raha tha).
+    # primary = store-specific pattern jo page ka ASLI selling price deta hai.
+    # Kuch stores (Flipkart) JSON-LD me sirf MRP bhejte hain, isliye unke liye
+    # ye tier JSON-LD se bhi upar rakha gaya hai.
+    primary_hits: list[int] = []
     jsonld: list[int] = []
     meta_prices: list[int] = []
     fallback: list[int] = []
+
+    for pattern in primary or []:
+        for match in re.findall(pattern, html):
+            number = _to_number(match)
+            if number is not None:
+                primary_hits.append(number)
 
     # 1) JSON-LD - sabse reliable
     for block in re.findall(
@@ -231,7 +251,7 @@ def extract_price(html: str, patterns: list[str]) -> int | None:
             if number is not None:
                 fallback.append(number)
 
-    for tier in (jsonld, meta_prices, fallback):
+    for tier in (primary_hits, jsonld, meta_prices, fallback):
         sane = [c for c in tier if SANITY_MIN <= c <= SANITY_MAX]
         if sane:
             # tier ke andar sabse kam = actual selling price (MRP/strike-through nahi)
@@ -259,7 +279,9 @@ def fetch_store(store: dict, attempts: int = 3) -> dict:
                 time.sleep(3 + attempt * 4)
                 continue
             response.raise_for_status()
-            price = extract_price(response.text, store["patterns"])
+            price = extract_price(
+                response.text, store["patterns"], store.get("primary_patterns")
+            )
             if price is None:
                 last_error = "price page pe mila nahi (layout badla?)"
                 time.sleep(2)
