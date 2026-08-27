@@ -1,0 +1,11 @@
+{
+  "fail_streak": {
+    "croma": 0,
+    "reliance": 1,
+    "vijaysales": 0,
+    "apple": 0,
+    "flipkart": 1,
+    "amazon": 1
+  },
+  "last_alert": {}
+}
