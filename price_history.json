@@ -3,7 +3,7 @@
   "mrp": 49900,
   "currency": "INR",
   "target": 40000,
-  "updated_at": "2026-08-31T00:28+05:30",
+  "updated_at": "2026-08-31T03:47+05:30",
   "best": {
     "store": "Vijay Sales",
     "url": "https://www.vijaysales.com/p/P258948/258948/apple-ipad-11th-gen-2025-wi-fi-128gb-md3y4hn-a-silver",
@@ -195,6 +195,14 @@
       "listed": 49900,
       "effective": 43900,
       "offer": "₹6,000 cashback (Axis/ICICI/SBI, 6-mo EMI)"
+    },
+    {
+      "ts": "2026-08-31T03:47+05:30",
+      "store": "flipkart",
+      "name": "Flipkart",
+      "listed": 43900,
+      "effective": 43900,
+      "offer": "listed price (bank offer alag se check karo)"
     }
   ]
 }
