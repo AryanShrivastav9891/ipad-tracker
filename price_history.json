@@ -3,12 +3,12 @@
   "mrp": 49900,
   "currency": "INR",
   "target": 40000,
-  "updated_at": "2026-09-01T00:05+05:30",
+  "updated_at": "2026-09-01T05:03+05:30",
   "best": {
     "store": "Croma",
     "url": "https://www.croma.com/apple-ipad-a16-bionic-chip-wi-fi-11-inch-128gb-silver-2025-model-/p/324285",
-    "listed": 47490,
-    "effective": 41490,
+    "listed": 47900,
+    "effective": 41900,
     "offer": "₹6,000 cashback (Axis/ICICI/SBI, 6-mo EMI)"
   },
   "entries": [
@@ -243,6 +243,22 @@
       "listed": 49900,
       "effective": 43900,
       "offer": "₹6,000 cashback (Axis/ICICI/SBI, 6-mo EMI)"
+    },
+    {
+      "ts": "2026-09-01T05:03+05:30",
+      "store": "croma",
+      "name": "Croma",
+      "listed": 47900,
+      "effective": 41900,
+      "offer": "₹6,000 cashback (Axis/ICICI/SBI, 6-mo EMI)"
+    },
+    {
+      "ts": "2026-09-01T05:03+05:30",
+      "store": "amazon",
+      "name": "Amazon India",
+      "listed": 47599,
+      "effective": 45562,
+      "offer": "Amazon Pay ICICI cashback"
     }
   ]
 }
