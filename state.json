@@ -1,10 +1,10 @@
 {
   "fail_streak": {
     "croma": 0,
-    "reliance": 89,
+    "reliance": 90,
     "vijaysales": 0,
     "apple": 0,
-    "flipkart": 0,
+    "flipkart": 1,
     "amazon": 0
   },
   "last_alert": {
