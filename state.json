@@ -1,11 +1,11 @@
 {
   "fail_streak": {
     "croma": 0,
-    "reliance": 202,
+    "reliance": 203,
     "vijaysales": 0,
     "apple": 0,
     "flipkart": 0,
-    "amazon": 2
+    "amazon": 3
   },
   "last_alert": {
     "drop:flipkart": "2026-10-07T23:46:05.331779+05:30",
@@ -13,6 +13,6 @@
     "drop:vijaysales": "2026-09-01T21:24:47.408214+05:30",
     "target:amazon": "2026-10-12T09:15:53.342773+05:30",
     "atl": "2026-10-12T09:15:53.342773+05:30",
-    "target:vijaysales": "2026-10-13T20:59:11.588204+05:30"
+    "target:vijaysales": "2026-10-14T14:42:07.637399+05:30"
   }
 }
