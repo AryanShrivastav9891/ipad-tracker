@@ -3,7 +3,7 @@
   "mrp": 49900,
   "currency": "INR",
   "target": 40000,
-  "updated_at": "2026-10-28T09:01+05:30",
+  "updated_at": "2026-10-28T15:44+05:30",
   "best": {
     "store": "Vijay Sales",
     "url": "https://www.vijaysales.com/p/P258948/258948/apple-ipad-11th-gen-2025-wi-fi-128gb-md3y4hn-a-silver",
@@ -2578,6 +2578,14 @@
       "name": "Amazon India",
       "listed": 61900,
       "effective": 59863,
+      "offer": "Amazon Pay ICICI cashback"
+    },
+    {
+      "ts": "2026-10-28T15:44+05:30",
+      "store": "amazon",
+      "name": "Amazon India",
+      "listed": 46990,
+      "effective": 44953,
       "offer": "Amazon Pay ICICI cashback"
     }
   ]
